@@ -1,5 +1,4 @@
-import React, {useContext, useRef, useState} from 'react';
-import CommuteIcon from "@mui/icons-material/Commute";
+import React, {useContext, useState} from 'react';
 import {
     Backdrop,
     Button,
@@ -217,7 +216,7 @@ const LoginPage = () => {
                   {/*  Google Button  */}
                   <div
                       onClick={() => {
-                          window.location.href = "http://localhost:8080/oauth2/authorization/google"
+                          window.location.href = import.meta.env.VITE_API_BASE_URL + "/oauth2/authorization/google"
                       }}
                       className="flex items-center justify-center w-full gap-2 bg-white rounded-lg border border-gray-300 py-2 hover:bg-gray-100 cursor-pointer">
                       <GoogleIcon />
