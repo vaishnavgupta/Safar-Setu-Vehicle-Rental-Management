@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: safarsetu-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: safarsetu
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: vaishnavgupta/safarsetu-backend:v1.0
+    container_name: safarsetu-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/safarsetu?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      JWT_SECRET: ${JWT_SECRET}
+
+      FRONTEND_URL_USER: ${FRONTEND_URL_USER}
+      FRONTEND_URL_ADMIN: ${FRONTEND_URL_ADMIN}
+
+      DEF_ADMIN_EMAIL: ${DEF_ADMIN_EMAIL}
+      DEF_ADMIN_PASSWORD: ${DEF_ADMIN_PASSWORD}
+
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+
+      RAZORPAY_ID: ${RAZORPAY_ID}
+      RAZORPAY_SECRET: ${RAZORPAY_SECRET}
+      RAZORPAY_CALLBACK: ${RAZORPAY_CALLBACK}
+
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+
+volumes:
+  mysql_data:
