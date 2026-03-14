@@ -1,5 +1,7 @@
 package org.vaishnav.safarsetu.payload.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -17,10 +19,11 @@ import java.time.LocalDateTime;
 public class UserDto {
     private Long id;
 
-    @NotNull(message = "Username / Email is required")
+    @NotBlank(message = "Username / Email is required")
+    @Email(message = "Invalid email format")
     private String email;
 
-    @NotNull(message = "Full Name is required")
+    @NotBlank(message = "Full Name is required")
     private String fullName;
 
     private UserRole role;
@@ -33,7 +36,7 @@ public class UserDto {
 
     private String profileImageUrl;
 
-    @NotNull(message = "Password is required")
+    @NotBlank(message = "Password is required")
     @Size(min = 8, max = 16, message = "Password must have between 8 - 16 characters")
     private String password;
 

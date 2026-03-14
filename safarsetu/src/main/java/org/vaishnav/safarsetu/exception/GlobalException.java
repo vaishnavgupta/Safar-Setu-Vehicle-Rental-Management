@@ -15,4 +15,10 @@ public class GlobalException {
                 .body( new ApiResponse(exception.getMessage(), false) );
     }
 
+    @ExceptionHandler(UserException.class)
+    private ResponseEntity<ApiResponse> handleUserException( UserException exception ){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body( new ApiResponse(exception.getMessage(), false) );
+    }
+
 }
