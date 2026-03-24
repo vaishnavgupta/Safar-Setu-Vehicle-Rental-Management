@@ -27,6 +27,7 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 import Loader from "../../components/Loader.jsx";
 import ConstructionIcon from '@mui/icons-material/Construction';
 import CarRentalIcon from "@mui/icons-material/CarRental";
+import RenderWakeupAlert from "../../components/RenderWakeupAlert.jsx";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -94,7 +95,10 @@ const LoginPage = () => {
           {/* Login Form */}
           <div className="flex flex-col items-center justify-center">
               {/* Top Logo */}
-              <div className="flex items-center gap-3 mb-10 cursor-pointer">
+              <div
+                  className="flex items-center gap-3 mb-10 cursor-pointer"
+                  onClick={() => navigate("/")}
+              >
                   <div className="p-2 bg-indigo-600 rounded-lg">
                       <CarRentalIcon className="text-white" />
                   </div>
@@ -102,6 +106,8 @@ const LoginPage = () => {
                       Safar <span className="text-indigo-400">Setu</span>
                   </h2>
               </div>
+
+              <RenderWakeupAlert />
 
               {/* Mobile Heading */}
               <h1 className="text-2xl font-serif text-indigo-800 bg-indigo-100 rounded-xl p-2 font-bold border border-gray-300 mb-8 lg:hidden">Welcome Back!</h1>

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import CommuteIcon from "@mui/icons-material/Commute";
-import {Backdrop, Button, Checkbox, IconButton, InputAdornment, TextField} from "@mui/material";
+import {Backdrop, Button, IconButton, InputAdornment, TextField} from "@mui/material";
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import KeyIcon from '@mui/icons-material/Key';
 import Visibility from '@mui/icons-material/Visibility';
@@ -10,15 +9,16 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import signUpAnimation from "../../assets/animations/sign_up_hero.json"
 import AnimatedHero from "../Home/AnimatedHero.jsx";
 import BadgeIcon from '@mui/icons-material/Badge';
-import { z } from 'zod';
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import {z} from 'zod';
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router";
 import {signUpUser} from "../../services/authService.js";
 import toast from "react-hot-toast";
 import Loader from "../../components/Loader.jsx";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import CarRentalIcon from "@mui/icons-material/CarRental";
+import RenderWakeupAlert from "../../components/RenderWakeupAlert.jsx";
 
 const registerSchema = z.object({
     fullName: z.string().min(3, "Min Length is 3").max(30, 'Max Length is 30'),
@@ -81,7 +81,10 @@ const SignUpPage = () => {
                 {/* Signup Form */}
                 <div className="flex flex-col items-center justify-center">
                     {/* Top Logo */}
-                    <div className="flex items-center gap-3 mb-10 cursor-pointer">
+                    <div
+                        className="flex items-center gap-3 mb-10 cursor-pointer"
+                        onClick={() => navigate("/")}
+                    >
                         <div className="p-2 bg-indigo-600 rounded-lg">
                             <CarRentalIcon className="text-white" />
                         </div>
@@ -89,6 +92,8 @@ const SignUpPage = () => {
                             Safar <span className="text-indigo-400">Setu</span>
                         </h2>
                     </div>
+
+                    <RenderWakeupAlert />
 
                     {/* Mobile Heading */}
                     <h1 className="text-2xl font-serif text-indigo-800 bg-indigo-100 rounded-xl p-2 font-bold border border-gray-300 mb-8 lg:hidden">Create an account!</h1>

@@ -79,7 +79,10 @@ const NavbarHome = () => {
             <Box sx={{ width: 250 }} role="presentation" onClick={handleDrawerToggle}>
                 <List>
                     {menuItems.map((items) => (
-                        <ListItemButton key={items.name} onClick={() => navigate(items.path)}>
+                        <ListItemButton key={items.name} onClick={() => {
+                            e.stopPropagation();
+                            navigate(items.path);
+                        }}>
                             <ListItemText primary={items.name} />
                         </ListItemButton>
                     ))}
