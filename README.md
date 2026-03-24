@@ -8,6 +8,10 @@
   </a>
 </p>
 
+> The backend is hosted on ***Render's free tier***, which spins down after inactivity. Your **first request may take a moment** while the server wakes up.
+
+> ***Subsequent requests will be fast*** once the service is running. Just wait a moment and try again if something doesn't load right away.
+
 ---
 
 ## Table of Contents
