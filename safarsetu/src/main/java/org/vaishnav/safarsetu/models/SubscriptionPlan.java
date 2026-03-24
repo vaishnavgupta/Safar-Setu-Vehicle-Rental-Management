@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SubscriptionPlan {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)

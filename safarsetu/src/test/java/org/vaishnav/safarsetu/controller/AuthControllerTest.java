@@ -27,7 +27,8 @@ import org.vaishnav.safarsetu.service.AuthService;
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @WebMvcTest(controllers = AuthController.class)
 @ActiveProfiles("test")
@@ -137,6 +138,61 @@ public class AuthControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    // Login Test
+    @Test
+    void loginUser_ShouldReturn200_WhenValidCredentials() throws Exception {
+        when(authService.login(anyString(), anyString()))
+                .thenReturn(validAuthResponse());
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validLoginRequest())))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.jwt").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Login Successfully"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userDto.role").value("ROLE_USER"));
+
+        verify(authService, times(1)).login("vaishnavtest@safarsetu.com", "vaishnavtest" );
+    }
+
+    @Test
+    void login_ShouldReturn400_WhenInvalidCredentials() throws Exception {
+        when(authService.login(anyString(), anyString()))
+                .thenThrow(new UserException("Invalid email or password"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validLoginRequest())))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    void login_ShouldReturn400_WhenEmailIsBlank() throws Exception {
+        AuthLoginRequest invalid = validLoginRequest();
+        invalid.setEmail("");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalid)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+        verify(authService, never()).login(anyString(), anyString());
+    }
+
+    @Test
+    void login_ShouldReturn400_WhenPasswordIsBlank() throws Exception {
+        AuthLoginRequest invalid = validLoginRequest();
+        invalid.setPassword("");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalid)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+        verify(authService, never()).login(anyString(), anyString());
     }
 
 }

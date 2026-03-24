@@ -21,7 +21,7 @@ import java.util.List;
 @Builder
 public class VehicleCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull(message = "Category code is required")
@@ -41,7 +41,7 @@ public class VehicleCategory {
     @ManyToOne
     private VehicleCategory parentCategory;
 
-    @OneToMany
+    @OneToMany(mappedBy = "parentCategory")
     private List<VehicleCategory> subCategories = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "vehiclecategory",  cascade = CascadeType.PERSIST)

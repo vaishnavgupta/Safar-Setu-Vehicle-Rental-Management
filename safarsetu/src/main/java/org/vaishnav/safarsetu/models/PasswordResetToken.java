@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PasswordResetToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(unique = true, nullable = false)
